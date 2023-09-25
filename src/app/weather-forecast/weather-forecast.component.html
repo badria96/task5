@@ -1,0 +1,35 @@
+<br>
+<div class="weather-app">
+<form  (submit)="getWeather()">
+    <input type="text" [(ngModel)]="cityName" name="cityName" placeholder="Enter city name" required>&nbsp;&nbsp;
+    <button type="submit">Get Weather</button>
+  </form> 
+  <div class="weather-info" *ngIf="weatherData">
+    <h2 class="weather-title">Weather Forecast for {{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+    <div class="weather-details">
+    <img [src]="getWeatherIcon(weatherData.weather[0].icon)" alt="Weather Icon">
+    <p class="temperature">Temperature: {{ weatherData.main.temp }}°{{ isCelsius ? 'C' : 'F' }}</p>
+    <p class="description">Description: {{ weatherData.weather[0].description }}</p>
+    <p class="humidity">Humidity: {{ weatherData.main.humidity }}%</p>
+  </div> 
+  </div>
+  <div class="temperature-unit-toggle">
+  <label>
+    <input type="radio" name="temperatureUnit" [(ngModel)]="isCelsius" [value]="true"> Celsius
+  </label>
+  <label>
+    <input type="radio" name="temperatureUnit" [(ngModel)]="isCelsius" [value]="false"> Fahrenheit
+  </label>&nbsp;
+  <button (click)="toggleTemperatureUnit()" class="toggle-button">Toggle Temperature Unit</button> 
+  <div>
+    <div class="favorites">
+    <button (click)="addToFavorites(weatherData.name)" class="add-button">Add to Favorites</button>&nbsp;&nbsp;
+    <button (click)="removeFromFavorites(weatherData.name)" class="remove-button">Remove from Favorites</button>
+  </div>
+  <div class="favorite-cities">
+    <h3 class="favorites-title">Favorite Cities</h3>
+    <ul>
+      <li *ngFor="let city of getFavoriteCities()" class="favorite-city">{{ city }}</li>
+    </ul>
+  </div>
+  </div>
